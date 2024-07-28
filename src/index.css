@@ -1,0 +1,10 @@
+body{
+  background-image: linear-gradient(to right, #10212c, #1e192e);
+}
+.timer-div{
+  width: 100%;
+  height: auto;
+  border: 2px solid rgb(197, 196, 196);
+  border-radius: 1.5rem;
+  padding: 0.25rem;
+}
