@@ -1,9 +1,14 @@
 import React, {useContext} from 'react'
-function Button(props){
+function Button({handleAddTime, children}){
+
+function clicked(){
+    handleAddTime()
+}
+
 
 return(
     <>
-        <button onClick={()=> timer => timer + 10}>Click Me</button>
+        <button onClick={clicked} className='play-button'>{children}</button>
     </>
 )
 }
