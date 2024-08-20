@@ -40,6 +40,8 @@ function App() {
     const [scrambledWord, setScrambledWord] = useState("")
     const [scrambledWordArray, setScrambledWordArray] = useState([])
     const [correctWords, setCorrectWords] = useState([])
+    const [hintCount, setHintCount] = useState(0)
+    var hintText = document.getElementById('hint-text')
 
     function scrambleWord(word) {
       //Splitting and scrambling the word letters
@@ -65,7 +67,7 @@ function App() {
       var scrambledWord = scrambleWord(randomword)
       setScrambledWord(scrambledWord)
      }
-     else if(count >= 5 && count < 10){
+     else if(count >= 5){
       var randomIndex = Math.floor(Math.random(words2)*(words2.length))
       var randomword2 = words2[randomIndex]
       setRandomWord(randomword2)
@@ -88,12 +90,32 @@ function App() {
       }, 1000);
       return () => clearInterval(interval)
     }, [timer]);
-
+    function resetGame(){
+      setTimer(60)
+      setCount(0)
+      setHintCount(0)
+      setCorrectWords([])
+      setInputValue("")
+      document.getElementById("guess-input").focus()
+    }
     function randomize(){
       var randomIndex = Math.floor(Math.random(words1)*(words1.length))
       setRandomWord(words1[randomIndex])
     }
-
+    function getHint(){
+      if(count<5 && hintCount < 3){
+        hintText.innerHTML = `The first three letters are <span class='highlight-color'>${(randomWord1.slice(0,3)).toUpperCase()}</span>`
+        setHintCount(h => h + 1)
+      }
+      else if(count >= 5 && hintCount < 3){
+        hintText.innerHTML = `The first three letters are <span class='highlight-color'>${(randomWord1.slice(0,3)).toUpperCase()}</span>`
+        setHintCount(h => h + 1)
+      }
+      else if(hintCount => 3){
+        console.log('you have exhausted your hints')
+      }
+      
+    }
     //This function checks the validity of the answer and adds more time if correct
     function check(){
       var guess = document.getElementById("guess-input").value.toLowerCase()
@@ -112,8 +134,9 @@ function App() {
         setRandomWord(words1[randomIndex])
         setInputValue("")
         document.getElementById("guess-input").focus()
+        hintText.textContent = ''
       }
-      else if(guess == randomWord1 && count >= 5 && count <= 10){
+      else if(guess == randomWord1 && count >= 5){
         setCorrectWords(c => [...c, guess])
         var randomIndex = Math.floor(Math.random(words2)*(words2.length))
         setCount(c => c + 1)
@@ -128,6 +151,10 @@ function App() {
         setRandomWord(words2[randomIndex])
         setInputValue("")
         document.getElementById("guess-input").focus()
+        hintText.textContent = ''
+      }
+      else{
+        console.log("wrong attempt")
       }
       
     }
@@ -139,9 +166,11 @@ function App() {
             <h1 className='level-text'>Level {count + 1}</h1>
             <Timer timer={timer}/>
               <div className='letters-container'>{scrambledWordArray.map(letter => (<div className='word-letters'>{letter.toUpperCase()}</div>))}</div>
+              <span id='hint-text'></span>
               <h1 className='score'>Score: {count * 100}</h1>
               <input type="text" id='guess-input' value={inputValue} onChange={handleInputChange} />
               <Button handleAddTime={check}>Play</Button>
+              <Button handleAddTime={getHint}>Hint</Button>
           </div>
          </section>
       </>
@@ -154,9 +183,10 @@ function App() {
           <div className='result-area-container'>
               <span className='performance-message'>{count > 5 ? 'Great attempt!': 'Better luck next time!'}</span>
               <span className='correct-answer-text'>The correct answer was <span className='highlight-color'>{randomWord1.toUpperCase()}</span></span>
+              <span className='words-list-heading-text'>Your score was {count*100}</span>
               <span className='words-list-heading-text'>Here is a list of words you unscrambled:</span>
               <div className='letters-container2'>{correctWords.map(cw => (<span className='word-letters'>{cw}</span>))}</div>
-              <Button>Play again</Button>
+              <Button handleAddTime={resetGame}>Play again</Button>
           </div>
       </section>
       
