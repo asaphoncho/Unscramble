@@ -1,3 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Matemasie&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Jersey+10&family=Matemasie&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Jersey+10&family=Matemasie&family=Ojuju:wght@200..800&display=swap');
+
 body{
   background-image: linear-gradient(to right, #10212c, #1e192e);
 }
@@ -51,8 +55,10 @@ body{
   row-gap: 2rem;
 }
 .score{
+  font-family: "Jersey 10", sans-serif;
   color: white;
   font-size: 3rem;
+  letter-spacing: 2mm;
 }
 .play-button{
   width: fit-content;
@@ -64,6 +70,23 @@ body{
   border-radius: 0.6rem;
   border: none;
   cursor: pointer;
+}
+.special-button{
+  width: fit-content;
+  height: auto;
+  padding: 0.5rem 1rem 0.5rem 1rem;
+  background-color: rgb(181, 97, 180);
+  color: white;
+  font-size: 1rem;
+  border-radius: 0.6rem;
+  border: none;
+  cursor: pointer;
+}
+.special-button:hover{
+  background-color: rgb(151, 79, 150);
+}
+.play-button:hover{
+  background-color: rgb(66, 154, 66);
 }
 #guess-input{
   width: 50%;
@@ -78,7 +101,9 @@ body{
 }
 .level-text{
   color: white;
-  font-size: 3rem;
+  font-size: 4rem;
+  font-family: "Jersey 10", sans-serif;
+  letter-spacing: 2mm;
 }
 .words-list-heading-text{
   color: white;
@@ -111,4 +136,16 @@ body{
   color: white;
   font-size: 1rem;
   font-weight: bold;
+}
+.butons-div{
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  column-gap: 2rem;
+  justify-content: center;
+  align-items: start;
+}
+i{
+  font-size: 1.5rem;
 }

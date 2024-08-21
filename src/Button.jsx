@@ -1,5 +1,5 @@
 import React, {useContext} from 'react'
-function Button({handleAddTime, children}){
+function Button({handleAddTime, children, handleClass}){
 
 function clicked(){
     handleAddTime()
@@ -8,7 +8,7 @@ function clicked(){
 
 return(
     <>
-        <button onClick={clicked} className='play-button'>{children}</button>
+        <button onClick={clicked} className={handleClass}>{children}</button>
     </>
 )
 }

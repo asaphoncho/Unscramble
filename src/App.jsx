@@ -1,6 +1,4 @@
 import { useState, useEffect } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 import Timer from './Timer.jsx'
 import Button from './Button.jsx'
@@ -167,15 +165,17 @@ function App() {
       <>
          <section className='game-area'>
           <div className='game-area-container'>
-            <h1 className='level-text'>Level {count + 1}</h1>
+            <span className='level-text'>Level {count + 1}</span>
             <Timer timer={timer}/>
               <div className='letters-container'>{scrambledWordArray.map(letter => (<div className='word-letters'>{letter.toUpperCase()}</div>))}</div>
               <span id='hint-text'></span>
-              <h1 className='score'>Score: {count * 100}</h1>
+              <div className='butons-div'>
+                <Button handleAddTime={getHint} handleClass='special-button'><i class="fa-regular fa-lightbulb"></i></Button>
+                <Button handleAddTime={()=> shuffle(scrambledWord)} handleClass='special-button'><i class="fa-solid fa-shuffle"></i></Button>
+              </div>
+              <span className='score'>Score: {count * 100}</span>
               <input type="text" id='guess-input' value={inputValue} onChange={handleInputChange} />
-              <Button handleAddTime={check}>Play</Button>
-              <Button handleAddTime={getHint}>Hint</Button>
-              <Button handleAddTime={()=> shuffle(scrambledWord)}>Shuffle</Button>
+              <Button handleAddTime={check} handleClass='play-button'>Play</Button>
           </div>
          </section>
       </>
@@ -191,7 +191,7 @@ function App() {
               <span className='words-list-heading-text'>Your score was {count*100}</span>
               <span className='words-list-heading-text'>Here is a list of words you unscrambled:</span>
               <div className='letters-container2'>{correctWords.map(cw => (<span className='word-letters'>{cw}</span>))}</div>
-              <Button handleAddTime={resetGame}>Play again</Button>
+              <Button handleAddTime={resetGame} handleClass='play-button'>Play again</Button>
           </div>
       </section>
       
