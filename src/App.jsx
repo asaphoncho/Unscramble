@@ -98,9 +98,13 @@ function App() {
       setInputValue("")
       document.getElementById("guess-input").focus()
     }
-    function randomize(){
-      var randomIndex = Math.floor(Math.random(words1)*(words1.length))
-      setRandomWord(words1[randomIndex])
+    function shuffle(y){
+      let x = y.split('')
+      for (let i = x.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [x[i], x[j]] = [x[j], x[i]];
+      }
+      setScrambledWordArray(x)
     }
     function getHint(){
       if(count<5 && hintCount < 3){
@@ -171,6 +175,7 @@ function App() {
               <input type="text" id='guess-input' value={inputValue} onChange={handleInputChange} />
               <Button handleAddTime={check}>Play</Button>
               <Button handleAddTime={getHint}>Hint</Button>
+              <Button handleAddTime={()=> shuffle(scrambledWord)}>Shuffle</Button>
           </div>
          </section>
       </>
