@@ -6,7 +6,7 @@ body{
   background-image: linear-gradient(to right, #10212c, #1e192e);
 }
 .timer-div{
-  width: 70%;
+  width: 50%;
   height: auto;
   border: 2px solid rgb(197, 196, 196);
   border-radius: 1.5rem;
@@ -53,6 +53,7 @@ body{
   justify-content: start;
   align-items: center;
   row-gap: 2rem;
+  margin-top: 2rem;
 }
 .score{
   font-family: "Jersey 10", sans-serif;
@@ -89,7 +90,7 @@ body{
   background-color: rgb(66, 154, 66);
 }
 #guess-input{
-  width: 50%;
+  width: 20%;
   height: auto;
   background-color: rgba(255, 255, 255, 0);
   text-align: center;

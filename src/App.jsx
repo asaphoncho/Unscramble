@@ -2,8 +2,15 @@ import { useState, useEffect } from 'react'
 import './App.css'
 import Timer from './Timer.jsx'
 import Button from './Button.jsx'
+import mySound from './assets/Startsound.mp3'
+import successSound from './assets/successsound.mp3'
+import drumRoll from './assets/drumroll.mp3'
 
 function App() {
+    function playSound(){
+      var audio = new Audio(mySound)
+      audio.play()
+    }
     // Level 1 - 5 words
     const words1 = [
       "apple", "table", "chair", "house", "plant", "grape", "river", "stone", "cloud", "grass",
@@ -39,6 +46,13 @@ function App() {
     const [scrambledWordArray, setScrambledWordArray] = useState([])
     const [correctWords, setCorrectWords] = useState([])
     const [hintCount, setHintCount] = useState(0)
+    const [isPlaying, setIsPlaying] = useState(false);
+
+    if(timer == 0){
+      var audio2 = new Audio(drumRoll)
+      audio2.play()
+    }
+
     var hintText = document.getElementById('hint-text')
 
     function scrambleWord(word) {
@@ -56,6 +70,30 @@ function App() {
     function handleInputChange(event){
       setInputValue(event.target.value)
     }
+    //Soundtrack
+    useEffect(() => {
+      const startSound = () => {
+        if (!isPlaying) {
+          const backgroundSound = new Audio(mySound);
+          backgroundSound.loop = true;
+          backgroundSound.play().catch(error => {
+            console.error('Error playing sound:', error);
+          });
+          setIsPlaying(true);
+        }
+      };
+  
+      // Listen for any click or key press to start the sound
+      window.addEventListener('click', startSound);
+      window.addEventListener('keydown', startSound);
+  
+      // Cleanup event listeners when the component unmounts
+      return () => {
+        window.removeEventListener('click', startSound);
+        window.removeEventListener('keydown', startSound);
+      };
+    }, [isPlaying]);  
+
     //Rerendering scrambled word each time the value changes
     useEffect(()=>{ 
       if(count < 5){
@@ -121,6 +159,8 @@ function App() {
     //This function checks the validity of the answer and adds more time if correct
     function check(){
       var guess = document.getElementById("guess-input").value.toLowerCase()
+      var sound = new Audio(successSound)
+
       if(guess == randomWord1 && count < 5){
         setCorrectWords(c => [...c, guess])
         var randomIndex = Math.floor(Math.random(words1)*(words1.length))
@@ -137,6 +177,7 @@ function App() {
         setInputValue("")
         document.getElementById("guess-input").focus()
         hintText.textContent = ''
+        sound.play()
       }
       else if(guess == randomWord1 && count >= 5){
         setCorrectWords(c => [...c, guess])
@@ -154,6 +195,7 @@ function App() {
         setInputValue("")
         document.getElementById("guess-input").focus()
         hintText.textContent = ''
+        sound.play()
       }
       else{
         console.log("wrong attempt")
