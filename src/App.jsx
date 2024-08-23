@@ -24,7 +24,7 @@ function App() {
       "torch", "sting", "thorn", "train", "wrist", "vivid", "gravy", "bliss", "blush", "fries",
       "grain", "glide", "grove", "swamp", "badge", "brick", "clamp", "creek", "grasp", "maple"
     ]
-    // Level 6-10 words
+    // Level 6-20 words
     const words2 = [
       "pumpkin", "blanket", "picture", "dolphin", "guitar", "cabinet", "mountain", "airport", "cactus", "bedroom",
       "cooking", "glacier", "journey", "ceiling", "faraway", "lantern", "orchard", "painter", "rainbow", "sandbox",
@@ -37,7 +37,29 @@ function App() {
       "monarch", "cyclone", "vintage", "forever", "network", "pebble", "context", "muffins", "circuit", "gobbler",
       "chalice", "festival", "glimpse", "seventh", "gravity", "reptile", "notepad", "balloon", "fishing", "village"
     ]
-    
+    // Level 21 beyond
+    const words3 = [
+      "computer", "sandwich", "birthday", "notebook", "building", 
+      "umbrella", "headache", "delivery", "hardware", "treasure",
+      "children", "keyboard", "elevator", "hospital", "calendar",
+      "location", "strategy", "industry", "planning", "invoices",
+      "medicine", "learning", "reliable", "document", "aluminum",
+      "magazine", "friendly", "vacation", "airplane", "baseball",
+      "mountain", "language", "gardener", "graduate", "holidays",
+      "newspaper", "bathroom", "headquarters", "reception", "scissors",
+      "applause", "training", "passport", "colleague", "colorful",
+      "stadiums", "festival", "assembly", "compound", "inflation",
+      "semester", "official", "deadline", "workshop", "envelope",
+      "software", "barbecue", "disaster", "research", "computer",
+      "backpack", "dentists", "football", "medicine", "midnight",
+      "platform", "quitting", "birthday", "solution", "strategy",
+      "volcanic", "feedback", "tomorrow", "frequent", "incoming",
+      "resource", "marathon", "textbook", "snapshot", "customer",
+      "portrait", "workflow", "laughter", "wireless", "television",
+      "lifestyle", "delivery", "ordinary", "customer", "sunshine",
+      "checkout", "hospital", "reliable", "download", "umbrella",
+      "vacation", "deadline", "organize", "headache", "backpack"
+   ]
     const [randomWord1, setRandomWord] = useState("")
     const [timer, setTimer] = useState(60);
     const [count, setCount] = useState(0)
@@ -45,7 +67,7 @@ function App() {
     const [scrambledWord, setScrambledWord] = useState("")
     const [scrambledWordArray, setScrambledWordArray] = useState([])
     const [correctWords, setCorrectWords] = useState([])
-    const [hintCount, setHintCount] = useState(0)
+    const [hintCount, setHintCount] = useState(3)
     const [isPlaying, setIsPlaying] = useState(false);
 
     if(timer == 0){
@@ -103,15 +125,23 @@ function App() {
       var scrambledWord = scrambleWord(randomword)
       setScrambledWord(scrambledWord)
      }
-     else if(count >= 5){
+     else if(count >= 5 && count < 20){
       var randomIndex = Math.floor(Math.random(words2)*(words2.length))
       var randomword2 = words2[randomIndex]
       setRandomWord(randomword2)
       var scrambledWord = scrambleWord(randomword2)
       setScrambledWord(scrambledWord)
      }
+     else if(count >= 20){
+      var randomIndex = Math.floor(Math.random(words3)*(words3.length))
+      var randomword2 = words3[randomIndex]
+      setRandomWord(randomword2)
+      var scrambledWord = scrambleWord(randomword2)
+      setScrambledWord(scrambledWord)
+     }
       
     }, [count])
+
     //UseEffect for the timer countdown
     useEffect(() => {
       const interval = setInterval(() => {
@@ -129,7 +159,7 @@ function App() {
     function resetGame(){
       setTimer(60)
       setCount(0)
-      setHintCount(0)
+      setHintCount(3)
       setCorrectWords([])
       setInputValue("")
       document.getElementById("guess-input").focus()
@@ -142,20 +172,24 @@ function App() {
       }
       setScrambledWordArray(x)
     }
+
+    //Hint function
     function getHint(){
-      if(count<5 && hintCount < 3){
+      if(count<5 && hintCount > 0){
         hintText.innerHTML = `The first three letters are <span class='highlight-color'>${(randomWord1.slice(0,3)).toUpperCase()}</span>`
-        setHintCount(h => h + 1)
+        setHintCount(h => h - 1)
       }
-      else if(count >= 5 && hintCount < 3){
+      else if(count >= 5 && hintCount > 0){
         hintText.innerHTML = `The first three letters are <span class='highlight-color'>${(randomWord1.slice(0,3)).toUpperCase()}</span>`
-        setHintCount(h => h + 1)
+        setHintCount(h => h - 1)
       }
-      else if(hintCount => 3){
-        console.log('you have exhausted your hints')
+      else if(hintCount == 0){
+        hintText.innerHTML = `You have exhausted your hints`
       }
       
     }
+
+    
     //This function checks the validity of the answer and adds more time if correct
     function check(){
       var guess = document.getElementById("guess-input").value.toLowerCase()
@@ -179,7 +213,7 @@ function App() {
         hintText.textContent = ''
         sound.play()
       }
-      else if(guess == randomWord1 && count >= 5){
+      else if(guess == randomWord1 && count >= 5 && count < 20){
         setCorrectWords(c => [...c, guess])
         var randomIndex = Math.floor(Math.random(words2)*(words2.length))
         setCount(c => c + 1)
@@ -192,6 +226,24 @@ function App() {
           }
         })
         setRandomWord(words2[randomIndex])
+        setInputValue("")
+        document.getElementById("guess-input").focus()
+        hintText.textContent = ''
+        sound.play()
+      }
+      else if(guess == randomWord1 && count >= 20){
+        setCorrectWords(c => [...c, guess])
+        var randomIndex = Math.floor(Math.random(words3)*(words3.length))
+        setCount(c => c + 1)
+        setTimer(t => {
+          if(t > 50){
+            return t + (60 - t)
+          }
+          else{
+            return t + 10
+          }
+        })
+        setRandomWord(words3[randomIndex])
         setInputValue("")
         document.getElementById("guess-input").focus()
         hintText.textContent = ''
@@ -212,6 +264,7 @@ function App() {
               <div className='letters-container'>{scrambledWordArray.map(letter => (<div className='word-letters'>{letter.toUpperCase()}</div>))}</div>
               <span id='hint-text'></span>
               <div className='butons-div'>
+                <div className='hint-count'>{hintCount}</div>
                 <Button handleAddTime={getHint} handleClass='special-button'><i class="fa-regular fa-lightbulb"></i></Button>
                 <Button handleAddTime={()=> shuffle(scrambledWord)} handleClass='special-button'><i class="fa-solid fa-shuffle"></i></Button>
               </div>
