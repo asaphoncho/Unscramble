@@ -5,6 +5,9 @@ import Button from './Button.jsx'
 import mySound from './assets/Startsound.mp3'
 import successSound from './assets/successsound.mp3'
 import drumRoll from './assets/drumroll.mp3'
+import Shuffle from './assets/shuffle.mp3'
+import lowscore from './assets/lowscore.mp3'
+import incorrectSound from './assets/incorrect.mp3'
 
 function App() {
     function playSound(){
@@ -70,9 +73,13 @@ function App() {
     const [hintCount, setHintCount] = useState(3)
     const [isPlaying, setIsPlaying] = useState(false);
 
-    if(timer == 0){
-      var audio2 = new Audio(drumRoll)
+    if(timer == 0 && count >= 10){
+      var audio = new Audio(drumRoll)
       audio2.play()
+    }
+    else if(timer == 0 && count < 10){
+      var audio = new Audio(lowscore)
+      audio.play()
     }
 
     var hintText = document.getElementById('hint-text')
@@ -165,12 +172,14 @@ function App() {
       document.getElementById("guess-input").focus()
     }
     function shuffle(y){
+      var sound = new Audio(Shuffle)
       let x = y.split('')
       for (let i = x.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [x[i], x[j]] = [x[j], x[i]];
       }
       setScrambledWordArray(x)
+      sound.play()
     }
 
     //Hint function
@@ -250,7 +259,10 @@ function App() {
         sound.play()
       }
       else{
+        var audio = new Audio(incorrectSound)
         console.log("wrong attempt")
+        audio.play()
+        hintText.textContent = "wrong attempt"
       }
       
     }
@@ -281,7 +293,7 @@ function App() {
       <>
       <section className='game-area'>
           <div className='result-area-container'>
-              <span className='performance-message'>{count > 5 ? 'Great attempt!': 'Better luck next time!'}</span>
+              <span className='performance-message'>{count > 10 ? 'Great attempt!': 'Better luck next time!'}</span>
               <span className='correct-answer-text'>The correct answer was <span className='highlight-color'>{randomWord1.toUpperCase()}</span></span>
               <span className='words-list-heading-text'>Your score was {count*100}</span>
               <span className='words-list-heading-text'>Here is a list of words you unscrambled:</span>
