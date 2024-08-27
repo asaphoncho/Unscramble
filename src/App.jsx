@@ -8,6 +8,8 @@ import drumRoll from './assets/drumroll.mp3'
 import Shuffle from './assets/shuffle.mp3'
 import lowscore from './assets/lowscore.mp3'
 import incorrectSound from './assets/incorrect.mp3'
+import hintSound from './assets/hintsound.mp3'
+import typing from './assets/typing.mp3'
 
 function App() {
     function playSound(){
@@ -75,7 +77,7 @@ function App() {
 
     if(timer == 0 && count >= 10){
       var audio = new Audio(drumRoll)
-      audio2.play()
+      audio.play()
     }
     else if(timer == 0 && count < 10){
       var audio = new Audio(lowscore)
@@ -98,6 +100,8 @@ function App() {
     //Input value change
     function handleInputChange(event){
       setInputValue(event.target.value)
+      var audio = new Audio(typing)
+      audio.play()
     }
     //Soundtrack
     useEffect(() => {
@@ -184,16 +188,21 @@ function App() {
 
     //Hint function
     function getHint(){
+      var audio = new Audio(hintSound)
+      var errorSound = new Audio(incorrectSound)
       if(count<5 && hintCount > 0){
-        hintText.innerHTML = `The first three letters are <span class='highlight-color'>${(randomWord1.slice(0,3)).toUpperCase()}</span>`
+        hintText.innerHTML = `<span style="color: white;">The first three letters are <span class='highlight-color'>${(randomWord1.slice(0,3)).toUpperCase()}</span></span>`
         setHintCount(h => h - 1)
+        audio.play()
       }
       else if(count >= 5 && hintCount > 0){
-        hintText.innerHTML = `The first three letters are <span class='highlight-color'>${(randomWord1.slice(0,3)).toUpperCase()}</span>`
+        hintText.innerHTML = `<span style="color: white;">The first three letters are <span class='highlight-color'>${(randomWord1.slice(0,3)).toUpperCase()}</span></span>`
         setHintCount(h => h - 1)
+        audio.play()
       }
       else if(hintCount == 0){
-        hintText.innerHTML = `You have exhausted your hints`
+        hintText.innerHTML = `<span style="color: red;">You have exhausted your hints</span>`
+        errorSound.play()
       }
       
     }
@@ -221,6 +230,8 @@ function App() {
         document.getElementById("guess-input").focus()
         hintText.textContent = ''
         sound.play()
+        setTimeout(()=>{document.getElementById("guess-input").style.boxShadow = '#aa66eee0 0 0 100px 20px'}, 0)
+        setTimeout(()=>{document.getElementById("guess-input").style.boxShadow = 'none'}, 100)
       }
       else if(guess == randomWord1 && count >= 5 && count < 20){
         setCorrectWords(c => [...c, guess])
@@ -239,6 +250,8 @@ function App() {
         document.getElementById("guess-input").focus()
         hintText.textContent = ''
         sound.play()
+        setTimeout(()=>{document.getElementById("guess-input").style.boxShadow = '#aa66eee0 0 0 100px 20px'}, 0)
+        setTimeout(()=>{document.getElementById("guess-input").style.boxShadow = 'none'}, 100)
       }
       else if(guess == randomWord1 && count >= 20){
         setCorrectWords(c => [...c, guess])
@@ -257,12 +270,16 @@ function App() {
         document.getElementById("guess-input").focus()
         hintText.textContent = ''
         sound.play()
+        setTimeout(()=>{document.getElementById("guess-input").style.boxShadow = '#aa66eee0 0 0 100px 20px'}, 0)
+        setTimeout(()=>{document.getElementById("guess-input").style.boxShadow = 'none'}, 100)
       }
       else{
         var audio = new Audio(incorrectSound)
         console.log("wrong attempt")
         audio.play()
-        hintText.textContent = "wrong attempt"
+        hintText.innerHTML = `<span style="color: red;">Wrong attempt</span>`
+        setTimeout(()=>{document.getElementById("guess-input").style.boxShadow = 'red 0 0 100px 20px'}, 0)
+        setTimeout(()=>{document.getElementById("guess-input").style.boxShadow = 'none'}, 100)
       }
       
     }
