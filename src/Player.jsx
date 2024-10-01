@@ -6,17 +6,21 @@ function Player({name, onChange}){
         setIsEditing((editing)=> !editing)
         console.log(name)
     }
-    var playerDiv = <div>
-        <span className='player-name'>{name}</span>
-    </div>
+    var playerDiv = <div className='player-and-image'>
+                        <img src="../src/assets/playerpicture.png" alt="" />
+                        <span className='player-name'>{name}</span>
+                    </div>
     if(isEditing){
-        playerDiv = <input type='text' onChange={onChange} placeholder='Enter name here'/>
+        playerDiv =  <div className='player-and-image'>
+                        <img src="../src/assets/playerpicture.png" alt="" />
+                        <input className='name-input' type='text' onChange={onChange} placeholder={name}/>
+                    </div>
     }
     return(
         <>
-            <div>
+            <div className='player-div'>
                 {playerDiv}
-                <button onClick={handleEdit}>Edit Name</button>
+                <button style={{backgroundColor: '#ffebcd00', border: 'none'}} onClick={handleEdit}><i class='fa-solid fa-pencil' style={{fontSize: '1rem'}}></i></button>
             </div>
         </>
     )

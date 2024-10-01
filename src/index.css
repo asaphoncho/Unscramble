@@ -5,23 +5,44 @@
 @import url('https://fonts.googleapis.com/css2?family=Jaini+Purva&family=Jaro:opsz@6..72&display=swap');
 
 body{
-  background-color: #FFEBCD;
+  background-image: url('./assets/backgroundimage.png');
+  background-size: cover;
+  background-position: center;
 }
 .timer-div{
-  width: 50%;
+  width: 100%;
   height: auto;
-  border: 2px solid rgb(197, 196, 196);
-  border-radius: 1.5rem;
-  padding: 0.25rem;
+  border: 4px solid #3C3B3B;
+  border-radius: 2rem;
   background-color: rgba(240, 248, 255, 0.022);
+  z-index: 1;
+}
+.timer-div2{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 35%;
+  padding: 0.5rem;
+  border: dotted #3C3B3B 3px;
+  border-radius: 3rem;
+  position: relative;
+}
+.timer-div2 img{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 24px;
+  height: 24px;
+  z-index: 1;
 }
 .word-letters{
   width: fit-content;
   height: auto;
   padding: 1.5rem 2rem 1.5rem 2rem;
-  color: black;
+  color: #FFEBCD;
   font-size: 1.5rem;
-  background-color: rgb(241, 168, 85);
+  background-color: #3C3B3B;
   border-radius: 0.6rem;
   font-weight: bold;
 }
@@ -54,59 +75,66 @@ body{
   flex-direction: column;
   justify-content: start;
   align-items: center;
-  row-gap: 2rem;
+  row-gap: 1rem;
   margin-top: 2rem;
 }
 .score{
-  font-family: "Jersey 10", sans-serif;
-  color: white;
+  font-family: "Jaro", sans-serif;
+  color: #3C3B3B;
   font-size: 3rem;
-  letter-spacing: 2mm;
 }
 .play-button{
   width: fit-content;
   height: auto;
-  padding: 0.5rem 1rem 0.5rem 1rem;
-  background-color: rgb(97, 181, 97);
-  color: white;
+  padding: 0.7rem 1.5rem 0.7rem 1.5rem;
+  background-color: #7AA497;
+  color: #FFEBCD;
   font-size: 1rem;
   border-radius: 0.6rem;
+  font-family: "Jaini Purva", system-ui;
   border: none;
   cursor: pointer;
+  box-shadow: 4px 4px 0 #3C3B3B;
+  transition: ease-in-out 0.2s;
+  border: 2px solid #3C3B3B;
 }
 .special-button{
   width: fit-content;
   height: auto;
   padding: 0.5rem 1rem 0.5rem 1rem;
-  background-color: rgb(181, 97, 180);
-  color: white;
+  background-color: #ffebcd00;
+  color: #3C3B3B;
   font-size: 1rem;
   border-radius: 0.6rem;
   border: none;
   cursor: pointer;
 }
 .special-button:hover{
-  background-color: rgb(151, 79, 150);
+  color: #FF8B5E;
 }
 .play-button:hover{
-  background-color: rgb(66, 154, 66);
+  background-color: #7AA497;
+  translate: 4px 4px;
+  border: 2px solid #3C3B3B;
+  box-shadow: none;
 }
 #guess-input{
   width: 20%;
   height: auto;
   background-color: rgba(255, 255, 255, 0);
   text-align: center;
-  border-radius: 1rem;
-  border: 2px white solid;
+  border-radius: 0.725rem;
+  border: 2px #3C3B3B solid;
   padding: 0.5rem 1rem 0.5rem 1rem;
-  color: white;
+  color: #3C3B3B;
   font-size: 1.5rem;
+  font-weight: bold;
+  font-family: "Jaini Purva", system-ui;
 }
 .level-text{
-  color: white;
+  color: #3C3B3B;
   font-size: 4rem;
-  font-family: "Jersey 10", sans-serif;
-  letter-spacing: 2mm;
+  font-family: "Jaro", sans-serif;
 }
 .words-list-heading-text{
   color: white;
@@ -161,14 +189,15 @@ i{
   font-size: 1.5rem;
 }
 .hint-count{
-  font-size: 0.8rem;
-  font-weight: bold;
-  color: white;
-  background-color: red;
+  font-size: 1rem;
+  font-weight: bolder;
+  color: #7AA497;
+  background-color: none;
+  font-family: "Jaini Purva", system-ui;
   position: absolute;
   padding: 0.2rem 0.5rem 0.2rem 0.5rem;
   border-radius: 0.3rem;
-  margin-right: 3rem;
+  margin-right: 9rem;
   margin-bottom: 2rem;
 }
 .leaderboard-section{
@@ -193,12 +222,44 @@ i{
   box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);*/
 }
 .leaderboard-heading{
-  width: 57%;
+  width: 50%;
   height: auto;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+}
+.player-div{
+  width: auto;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+  column-gap: 1rem;
+  padding: 0.5rem 2rem 0.75rem 0.75rem;
+  border: #3C3B3B solid 3px;
+  border-radius: 2rem;
+  box-shadow: 4px 4px 0 #3C3B3B;
+  font-family: "Jaini Purva", system-ui;
+  color: #3C3B3B;
+  font-size: 1.5rem;
+}
+.player-and-image{
+  width: auto;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+  column-gap: 0.5rem;
+  font-weight: bold;
+}
+.player-and-image img{
+  width: 40px;
+  height: 40px;
+  border-radius: 3rem;
+  border: 3px solid #3C3B3B;
 }
 .heading-text{
   height: auto;
@@ -268,7 +329,15 @@ i{
   row-gap: 0.3rem;
   position: relative;
 }
-
+.name-input{
+  border: none;
+  background-color: #3c3b3b00;
+  height: 45px;
+  width: fit-content;
+  font-family: "Jaini Purva", system-ui;
+  color: #3C3B3B;
+  font-size: 1.5rem;
+}
 /*.gradient-text {
   font-size: 5rem;
   font-weight: bold;

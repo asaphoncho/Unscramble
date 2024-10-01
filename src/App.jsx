@@ -76,8 +76,8 @@ function App() {
     const [correctWords, setCorrectWords] = useState([])
     const [hintCount, setHintCount] = useState(3)
     const [isPlaying, setIsPlaying] = useState(false);
-    const [player, setPlayer] = useState("")
-    const [leaderBoard, setLeaderBoard] = useState([])
+    const [player, setPlayer] = useState("Player")
+    const [leaderBoard, setLeaderBoard] = useState([{name: "Anita", score: 2500}, {name: "Ifeoluwa", score: 2000}, {name: "Ephraim", score: 1800}, {name: "Olamide", score: 1500}])
     const [highScore, setHighScore] = useState(false)
     var leaderboardList = JSON.parse(localStorage.getItem("leaderboard"))
     const [effectChange, setEffectChange] = useState(true)
@@ -129,7 +129,7 @@ function App() {
 
     useEffect(() => {
       shuffleCorrectWords(correctWords)
-      if (timer === 0 && player) {
+      if (timer === 0) {
         const newPlayer = { name: player, score: count * 100 };
     
         setLeaderBoard((prevLeaderBoard) => {
@@ -248,7 +248,7 @@ function App() {
       }, 1000);
       return () => clearInterval(interval)
     }, [timer]);
-    const colors = ["#FFA78", "#7AA49", "#D2CF8A", "#96856A", "#8795A9", "#A987A4"]
+    const colors = ["#FFA785", "#7AA497", "#D2CF8A", "#96856A", "#8795A9", "#A987A4", "C9C22F", "A98787"]
 
     function colorRandom(a){
       let randomIndex = Math.floor(Math.random(a)*a.length)
@@ -291,12 +291,12 @@ function App() {
       var audio = new Audio(hintSound)
       var errorSound = new Audio(incorrectSound)
       if(hintCount > 0){
-        hintText.innerHTML = `<span style="color: white;">The first three letters are <span className='highlight-color'>${(randomWord1.slice(0,3)).toUpperCase()}</span></span>`
+        hintText.innerHTML = `<span style="color: #3C3B3B; font-family:"Jaini Purva", system-ui">The first three letters are <span style='color:#FF8B5E'>${(randomWord1.slice(0,3)).toUpperCase()}</span></span>`
         setHintCount(h => h - 1)
         audio.play()
       }
       else if(hintCount == 0){
-        hintText.innerHTML = `<span style="color: red;">You have exhausted your hints</span>`
+        hintText.innerHTML = `<span style="color: #3C3B3B;">You have exhausted your hints</span>`
         errorSound.play()
       }
       
@@ -382,22 +382,20 @@ function App() {
     return (
       <>
          <section className='game-area'>
-          <div>
-            <Player name={player} onChange={handleNameChange}/>
-          </div>
           <div className='game-area-container'>
-            <span className='level-text'>Level {count + 1}</span>
+            <div><Player name={player} onChange={handleNameChange}/></div>
             <Timer timer={timer}/>
-              <div className='letters-container'>{scrambledWordArray.map((letter, index) => (<div key={index} className='word-letters'>{letter.toUpperCase()}</div>))}</div>
-              <span id='hint-text'></span>
-              <div className='butons-div'>
-                <div className='hint-count'>{hintCount}</div>
-                <Button handleAddTime={getHint} handleClass='special-button'><i class="fa-regular fa-lightbulb"></i></Button>
-                <Button handleAddTime={()=> shuffle(scrambledWord)} handleClass='special-button'><i class="fa-solid fa-shuffle"></i></Button>
-              </div>
-              <span className='score'>Score: {count * 100}</span>
-              <input type="text" id='guess-input' value={inputValue} onChange={handleInputChange} />
-              <Button handleAddTime={check} handleClass='play-button'>Play</Button>
+            <div className='letters-container'>{scrambledWordArray.map((letter, index) => (<div key={index} className='word-letters'>{letter.toUpperCase()}</div>))}</div>
+            <span id='hint-text'></span>
+            <div className='butons-div'>
+              <div className='hint-count'>{hintCount}</div>
+              <Button handleAddTime={getHint} handleClass='special-button'><i class="fa-regular fa-lightbulb"></i></Button>
+              <Button handleAddTime={()=> shuffle(scrambledWord)} handleClass='special-button'><i class="fa-solid fa-shuffle"></i></Button>
+              <Button handleAddTime={()=> shuffle(scrambledWord)} handleClass='special-button'><i class="fa-solid fa-music"></i></Button>
+            </div>
+            <span className='score'>Score: {count * 100}</span>
+            <input type="text" id='guess-input' value={inputValue} onChange={handleInputChange} />
+            <Button handleAddTime={check} handleClass='play-button' style={{backgroundColor:'#3C3B3B'}}>Play</Button>
           </div>
          </section>
       </>
@@ -410,8 +408,8 @@ function App() {
       <section className='game-area'>
           <div className='result-area-container'>
               <span className='performance-message'>{count > 10 ? 'Fantastic!': 'Better luck next time!'}</span>
-              <span className='correct-answer-text'>The correct answer was <span className='highlight-color'>{randomWord1.toUpperCase()}</span></span>
-              <span className='words-list-heading-text'>Your score was {count*100}. Here is a list of words you unscrambled:</span>
+              <span className='words-list-heading-text'>The correct answer was <span style={{color: '#FFA785'}}>{randomWord1.toUpperCase()}</span></span>
+              <span className='words-list-heading-text'>Your score was <span style={{color: '#FFA785'}}>{count*100}</span>. Here is a list of words you unscrambled:</span>
               <div className='letters-container2'>{correctWords.map((cw,index) => (<span key={index} className='word-letters' style={colorRandom(colors)}>{`${cw.charAt(0).toUpperCase()}` + `${cw.slice(1).toLowerCase()}`}</span>))}</div>
               <Button handleAddTime={resetGame} handleClass='play-button'>Play again</Button>
               <Button handleAddTime={()=>{
