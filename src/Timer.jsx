@@ -12,12 +12,12 @@ function Timer({timer}) {
     timerStyle = {
       width: `${(timer/60) * 100}%`,
       height: "2rem",
-      backgroundImage: "linear-gradient(to right, rgb(137, 241, 85), rgb(85, 241, 124))",
+      backgroundImage: "repeating-linear-gradient(to right, rgb(137, 241, 85), rgb(85, 241, 124))",
       borderTopLeftRadius: '1.5rem',
       borderBottomLeftRadius: '1.5rem',
     }
   }
-  if(timer <= 30 && timer > 15){
+  else if(timer <= 30 && timer > 15){
     timerStyle = {
       width: `${(timer/60) * 100}%`,
       height: "2rem",
