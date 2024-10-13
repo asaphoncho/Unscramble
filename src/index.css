@@ -373,7 +373,7 @@ i{
     background-image: url('./assets/backgroundimage.png');
     background-size: cover;
     background-position: center;
-    margin-top: 2rem;
+    padding-top: 2rem;
   }
   .letters-container{
     width: 80%;
