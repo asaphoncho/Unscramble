@@ -7,12 +7,12 @@ function Player({name, onChange}){
         console.log(name)
     }
     var playerDiv = <div className='player-and-image'>
-                        <img src="../src/assets/playerpicture.png" alt="" />
+                        <img src="./src/assets/playerpicture.png" alt="" />
                         <span className='player-name'>{name}</span>
                     </div>
     if(isEditing){
         playerDiv =  <div className='player-and-image'>
-                        <img src="../src/assets/playerpicture.png" alt="" />
+                        <img src="./src/assets/playerpicture.png" alt="" />
                         <input className='name-input' type='text' onChange={onChange} placeholder={name}/>
                     </div>
     }

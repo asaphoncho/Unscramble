@@ -7,7 +7,6 @@ function Timer({timer}) {
 
   var timerStyle = {
     width: `${(timer/60) * 100}%`,
-    height: "3.625rem",
     backgroundImage: `url(${plastergreen})`,
     borderRadius: '1.5rem',
     zIndex: 0
@@ -15,7 +14,6 @@ function Timer({timer}) {
   if(timer === 59 || timer === 58){
     timerStyle = {
       width: `${(timer/60) * 100}%`,
-      height: "3.625rem",
       backgroundImage: `url(${plastergreen})`,
       borderTopLeftRadius: '1.5rem',
       borderBottomLeftRadius: '1.5rem',
@@ -27,7 +25,6 @@ function Timer({timer}) {
   else if(timer <= 57 && timer > 30){
     timerStyle = {
       width: `${(timer/60) * 100}%`,
-      height: "3.625rem",
       backgroundImage: `url(${plastergreen})`,
       borderTopLeftRadius: '1.5rem',
       borderBottomLeftRadius: '1.5rem',
@@ -37,7 +34,6 @@ function Timer({timer}) {
   else if(timer <= 30 && timer > 15){
     timerStyle = {
       width: `${(timer/60) * 100}%`,
-      height: "3.625rem",
       backgroundImage: `url(${plasterorange})`,
       borderTopLeftRadius: '1.5rem',
       borderBottomLeftRadius: '1.5rem',
@@ -47,7 +43,6 @@ function Timer({timer}) {
   else if(timer <= 15 && timer > 2){
     timerStyle = {
       width: `${(timer/60) * 100}%`,
-      height: "3.625rem",
       backgroundImage: `url(${plasterpink})`,
       borderTopLeftRadius: '1.5rem',
       borderBottomLeftRadius: '1.5rem',
@@ -57,7 +52,6 @@ function Timer({timer}) {
   else if(timer <= 2){
     timerStyle = {
       width: `${((timer/60) * 100) + 0.8}%`,
-      height: "3.625rem",
       backgroundImage: `url(${plasterpink})`,
       borderTopLeftRadius: '7rem',
       borderBottomLeftRadius: '7rem',
@@ -73,7 +67,7 @@ function Timer({timer}) {
         <div className="timer-div">
           <div className="timer" style={timerStyle}></div>
         </div>
-        <img src="../src/assets/plaster.png" alt="" />
+        <img src="./src/assets/plaster.png" alt="" />
       </div>
     </>
   );

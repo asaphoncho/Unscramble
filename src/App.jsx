@@ -77,9 +77,9 @@ function App() {
     const [hintCount, setHintCount] = useState(3)
     const [isPlaying, setIsPlaying] = useState(false);
     const [player, setPlayer] = useState("Player")
-    const [leaderBoard, setLeaderBoard] = useState([])
     const [highScore, setHighScore] = useState(false)
     var leaderboardList = JSON.parse(localStorage.getItem("leaderboard"))
+    const [leaderBoard, setLeaderBoard] = useState([])
     const [effectChange, setEffectChange] = useState(true)
     let backgroundSound
     
@@ -87,10 +87,9 @@ function App() {
       let playerStyle = {
         position: 'absolute', /* Make the cards overlap */
         zIndex: `${leaderBoard.length - a}`, /* Base z-index */
-        '--offset': `${a * 50}px`,
+        '--offset': `${a * 40}px`,
+        '--offset2': `${a * 50}px`,
         top: 0,
-        transform: 'translateY(var(--offset))',
-        width: '70%',
         height: 'auto',
         display: 'flex',
         flexDirection: 'row',
@@ -431,7 +430,7 @@ function App() {
               <span className='heading-text'>Score</span>
             </div>
             <div className='ranking' style={{height: `${(leaderboardList.length)* 3}rem`}}>
-              {leaderboardList.map((lb, index) => (<div style={playerClass(index)} key={index}>
+              {leaderboardList.map((lb, index) => (<div className='playerClass' style={playerClass(index)} key={index}>
                 <div className='player-rank'><div className='rank-text'><span>{index + 1}</span></div></div>
                 <div className='player-details'>
                   <span className='player-name'>{lb.name}</span>
@@ -439,7 +438,7 @@ function App() {
                 </div>
               </div>))}
             </div>
-            <div style={{marginTop:'2rem', zIndex:50}}><Button handleAddTime={resetGame} handleClass='play-button'>Play again</Button></div>
+            <div style={{marginTop:'2rem'}}><Button handleAddTime={resetGame} handleClass='play-button'>Play again</Button></div>
             
           </div>
           
