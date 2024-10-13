@@ -77,10 +77,11 @@ function App() {
     const [hintCount, setHintCount] = useState(3)
     const [isPlaying, setIsPlaying] = useState(false);
     const [player, setPlayer] = useState("Player")
-    const [leaderBoard, setLeaderBoard] = useState([{name: "Anita", score: 2500}, {name: "Ifeoluwa", score: 2000}, {name: "Ephraim", score: 1800}, {name: "Olamide", score: 1500}])
+    const [leaderBoard, setLeaderBoard] = useState([])
     const [highScore, setHighScore] = useState(false)
     var leaderboardList = JSON.parse(localStorage.getItem("leaderboard"))
     const [effectChange, setEffectChange] = useState(true)
+    let backgroundSound
     
     function playerClass(a){
       let playerStyle = {
@@ -184,29 +185,25 @@ function App() {
     function handleNameChange(event){
       setPlayer(event.target.value)
     }
-    //Soundtrack
-    useEffect(() => {
-      const startSound = () => {
-        if (!isPlaying) {
-          const backgroundSound = new Audio(mySound);
-          backgroundSound.loop = true;
-          backgroundSound.play().catch(error => {
-            console.error('Error playing sound:', error);
-          });
-          setIsPlaying(true);
-        }
-      };
-  
-      // Listen for any click or key press to start the sound
-      window.addEventListener('click', startSound);
-      window.addEventListener('keydown', startSound);
-  
-      // Cleanup event listeners when the component unmounts
-      return () => {
-        window.removeEventListener('click', startSound);
-        window.removeEventListener('keydown', startSound);
-      };
-    }, [isPlaying]);  
+
+    function playSound(){
+      if(!backgroundSound){
+        backgroundSound = new Audio(mySound)
+        backgroundSound.loop = true;
+      }
+      if (!isPlaying) {
+        backgroundSound.play().catch(error => {
+        console.error('Error playing sound:', error);
+        });
+        setIsPlaying(true);
+        console.log("isplaying is true now")
+      }
+      else{
+        setIsPlaying(false)
+        backgroundSound.pause()
+        console.log("isplaying is false now")
+      }
+    } 
 
     //Rerendering scrambled word each time the value changes
     useEffect(()=>{ 
@@ -253,7 +250,7 @@ function App() {
     function colorRandom(a){
       let randomIndex = Math.floor(Math.random(a)*a.length)
       let randomColor = a[randomIndex]
-      let colorStyle = {backgroundColor: `${randomColor}`, borderRadius: "2rem", boxShadow: "3px 4px 0 #3C3B3B", fontSize: "1.2rem", padding: "0.8rem 1.5rem 0.8rem 1.5rem", color: "#FFEBCD", fontFamily: '"Jaini Purva", system-ui', fontStyle: 'normal', fontWeight: '400'}
+      let colorStyle = {backgroundColor: `${randomColor}`, borderRadius: "2rem", boxShadow: "3px 4px 0 #3C3B3B", color: "#FFEBCD", fontFamily: '"Jaini Purva", system-ui', fontStyle: 'normal', fontWeight: '400'}
       return colorStyle
     }
 
@@ -385,13 +382,13 @@ function App() {
           <div className='game-area-container'>
             <div><Player name={player} onChange={handleNameChange}/></div>
             <Timer timer={timer}/>
-            <div className='letters-container'>{scrambledWordArray.map((letter, index) => (<div key={index} className='word-letters'>{letter.toUpperCase()}</div>))}</div>
+            <div className='letters-container'>{scrambledWordArray.map((letter, index) => (<div key={index} className='word-letters' onClick={()=>{setInputValue(prevValue => prevValue + letter)}}>{letter.toUpperCase()}</div>))}</div>
             <span id='hint-text'></span>
             <div className='butons-div'>
               <div className='hint-count'>{hintCount}</div>
               <Button handleAddTime={getHint} handleClass='special-button'><i class="fa-regular fa-lightbulb"></i></Button>
               <Button handleAddTime={()=> shuffle(scrambledWord)} handleClass='special-button'><i class="fa-solid fa-shuffle"></i></Button>
-              <Button handleAddTime={()=> shuffle(scrambledWord)} handleClass='special-button'><i class="fa-solid fa-music"></i></Button>
+              <Button handleAddTime={playSound} handleClass='special-button'><i class="fa-solid fa-music"></i></Button>
             </div>
             <span className='score'>Score: {count * 100}</span>
             <input type="text" id='guess-input' value={inputValue} onChange={handleInputChange} />
@@ -410,7 +407,7 @@ function App() {
               <span className='performance-message'>{count > 10 ? 'Fantastic!': 'Better luck next time!'}</span>
               <span className='words-list-heading-text'>The correct answer was <span style={{color: '#FFA785'}}>{randomWord1.toUpperCase()}</span></span>
               <span className='words-list-heading-text'>Your score was <span style={{color: '#FFA785'}}>{count*100}</span>. Here is a list of words you unscrambled:</span>
-              <div className='letters-container2'>{correctWords.map((cw,index) => (<span key={index} className='word-letters' style={colorRandom(colors)}>{`${cw.charAt(0).toUpperCase()}` + `${cw.slice(1).toLowerCase()}`}</span>))}</div>
+              <div className='letters-container2'>{correctWords.map((cw,index) => (<span key={index} className='word-letters2' style={colorRandom(colors)}>{`${cw.charAt(0).toUpperCase()}` + `${cw.slice(1).toLowerCase()}`}</span>))}</div>
               <Button handleAddTime={resetGame} handleClass='play-button'>Play again</Button>
               <Button handleAddTime={()=>{
                 setHighScore(true)

@@ -12,7 +12,19 @@ function Timer({timer}) {
     borderRadius: '1.5rem',
     zIndex: 0
   };
-  if(timer <= 59 && timer > 30){
+  if(timer === 59 || timer === 58){
+    timerStyle = {
+      width: `${(timer/60) * 100}%`,
+      height: "3.625rem",
+      backgroundImage: `url(${plastergreen})`,
+      borderTopLeftRadius: '1.5rem',
+      borderBottomLeftRadius: '1.5rem',
+      borderTopRightRadius: '1rem',
+      borderBottomRightRadius: '1rem',
+      zIndex: 0
+    }
+  }
+  else if(timer <= 57 && timer > 30){
     timerStyle = {
       width: `${(timer/60) * 100}%`,
       height: "3.625rem",
@@ -32,13 +44,23 @@ function Timer({timer}) {
       zIndex: 0
     }
   }
-  else if(timer <= 15 && timer > 0){
+  else if(timer <= 15 && timer > 2){
     timerStyle = {
       width: `${(timer/60) * 100}%`,
       height: "3.625rem",
       backgroundImage: `url(${plasterpink})`,
       borderTopLeftRadius: '1.5rem',
       borderBottomLeftRadius: '1.5rem',
+      zIndex: 0
+    }
+  }
+  else if(timer <= 2){
+    timerStyle = {
+      width: `${((timer/60) * 100) + 0.8}%`,
+      height: "3.625rem",
+      backgroundImage: `url(${plasterpink})`,
+      borderTopLeftRadius: '7rem',
+      borderBottomLeftRadius: '7rem',
       zIndex: 0
     }
   } ;
