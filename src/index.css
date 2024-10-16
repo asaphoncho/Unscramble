@@ -376,13 +376,14 @@ i{
     padding-top: 2rem;
   }
   .letters-container{
-    width: 80%;
+    width: 90%;
     height: auto;
     display: flex;
-    flex-direction: row;
+    flex-wrap: wrap;
     justify-content: center;
     align-items: start;
     column-gap: 0.3rem;
+    row-gap: 0.3rem;
   }
   .word-letters{
     width: fit-content;
@@ -583,6 +584,18 @@ i{
     font-size: 0.8rem;
     font-weight: bold;
     height: 0.8rem;
+  }
+  .hint-count{
+    font-size: 0.7rem;
+    font-weight: bolder;
+    color: #7AA497;
+    background-color: none;
+    font-family: "Jaini Purva", system-ui;
+    position: absolute;
+    padding: 0.2rem 0.5rem 0.2rem 0.5rem;
+    border-radius: 0.3rem;
+    margin-right: 6.3rem;
+    margin-bottom: 2rem;
   }
   .score{
     font-family: "Jaro", sans-serif;

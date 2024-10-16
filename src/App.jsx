@@ -149,7 +149,7 @@ function App() {
     const [highScore, setHighScore] = useState(false)
     var leaderboardList = JSON.parse(localStorage.getItem("leaderboard"))
     const [leaderBoard, setLeaderBoard] = useState([])
-    const [effectChange, setEffectChange] = useState(true)
+    const [hintPressed, setHintPressed] = useState(false)
     let backgroundSound
     
     function playerClass(a){
@@ -354,13 +354,18 @@ function App() {
     function getHint(){
       var audio = new Audio(hintSound)
       var errorSound = new Audio(incorrectSound)
-      if(hintCount > 0){
+      if(hintCount > 0 && !hintPressed){
         hintText.innerHTML = `<span style="color: #3C3B3B; font-family:"Jaini Purva", system-ui">The first three letters are <span style='color:#FF8B5E'>${(randomWord1.slice(0,3)).toUpperCase()}</span></span>`
         setHintCount(h => h - 1)
+        setHintPressed(true)
         audio.play()
       }
       else if(hintCount == 0){
         hintText.innerHTML = `<span style="color: #3C3B3B;">You have exhausted your hints</span>`
+        errorSound.play()
+      }
+      else if(hintPressed){
+        hintText.innerHTML = `<span style="color: #3C3B3B; font-family:"Jaini Purva", system-ui">The first three letters are <span style='color:#FF8B5E'>${(randomWord1.slice(0,3)).toUpperCase()}</span></span>`
         errorSound.play()
       }
       
@@ -391,6 +396,9 @@ function App() {
         sound.play()
         setTimeout(()=>{document.getElementById("guess-input").style.boxShadow = 'green 0 0 100px 20px'}, 0)
         setTimeout(()=>{document.getElementById("guess-input").style.boxShadow = 'none'}, 100)
+        if(hintPressed){
+          setHintPressed(false)
+        }
       }
       else if(guess == randomWord1 && count >= 5 && count < 20){
         setCorrectWords(c => [...c, guess])
