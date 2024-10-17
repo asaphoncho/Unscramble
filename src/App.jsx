@@ -148,7 +148,7 @@ function App() {
     const [player, setPlayer] = useState("Player")
     const [highScore, setHighScore] = useState(false)
     var leaderboardList = JSON.parse(localStorage.getItem("leaderboard"))
-    const [leaderBoard, setLeaderBoard] = useState([])
+    const [leaderBoard, setLeaderBoard] = useState(leaderboardList ? leaderboardList.map(player => ({name: player.name, score: player.score})) : [])
     const [hintPressed, setHintPressed] = useState(false)
     let backgroundSound
     
@@ -391,11 +391,13 @@ function App() {
         })
         setRandomWord(words1[randomIndex])
         setInputValue("")
-        document.getElementById("guess-input").focus()
         hintText.textContent = ''
         sound.play()
         setTimeout(()=>{document.getElementById("guess-input").style.boxShadow = 'green 0 0 100px 20px'}, 0)
         setTimeout(()=>{document.getElementById("guess-input").style.boxShadow = 'none'}, 100)
+        if(window.innerWidth > 1000){
+          document.getElementById("guess-input").focus()
+        }
         if(hintPressed){
           setHintPressed(false)
         }
@@ -414,11 +416,13 @@ function App() {
         })
         setRandomWord(words2[randomIndex])
         setInputValue("")
-        document.getElementById("guess-input").focus()
         hintText.textContent = ''
         sound.play()
         setTimeout(()=>{document.getElementById("guess-input").style.boxShadow = 'green 0 0 100px 20px'}, 0)
         setTimeout(()=>{document.getElementById("guess-input").style.boxShadow = 'none'}, 100)
+        if(window.innerWidth > 1000){
+          document.getElementById("guess-input").focus()
+        }
       }
       else if(guess == randomWord1 && count >= 20){
         setCorrectWords(c => [...c, guess])
@@ -434,11 +438,13 @@ function App() {
         })
         setRandomWord(words3[randomIndex])
         setInputValue("")
-        document.getElementById("guess-input").focus()
         hintText.textContent = ''
         sound.play()
         setTimeout(()=>{document.getElementById("guess-input").style.boxShadow = 'green 0 0 100px 20px'}, 0)
         setTimeout(()=>{document.getElementById("guess-input").style.boxShadow = 'none'}, 100)
+        if(window.innerWidth > 1000){
+          document.getElementById("guess-input").focus()
+        }
       }
       else{
         var audio = new Audio(incorrectSound)

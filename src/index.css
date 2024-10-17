@@ -399,9 +399,9 @@ i{
   .word-letters2{
     width: fit-content;
     height: auto;
-    padding: 0.2rem 0.5rem 0.2rem 0.5rem;
+    padding: 0.3rem 0.5rem 0.3rem 0.5rem;
     color: #FFEBCD;
-    font-size: 0.7rem;
+    font-size: 0.8rem;
     background-color: #3C3B3B;
     border-radius: 0.6rem;
     font-weight: bold;
