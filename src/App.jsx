@@ -150,6 +150,7 @@ function App() {
     var leaderboardList = JSON.parse(localStorage.getItem("leaderboard"))
     const [leaderBoard, setLeaderBoard] = useState(leaderboardList ? leaderboardList.map(player => ({name: player.name, score: player.score})) : [])
     const [hintPressed, setHintPressed] = useState(false)
+    const [clickedIndex, setClickedIndex] = useState([])
     let backgroundSound
     
     function playerClass(a){
@@ -254,6 +255,17 @@ function App() {
       setPlayer(event.target.value)
     }
 
+    function handleClickLetter(index, letter){
+      if(clickedIndex.includes(index)){
+        setInputValue((prevValue) => prevValue.replace(letter, ''))
+        setClickedIndex(prevIndex => prevIndex.filter((i) => i !== index))
+      }
+      else{
+        setInputValue(prevValue => prevValue + letter)
+        setClickedIndex(prevIndex => [...prevIndex, index])
+      }
+    }
+
     function playSound(){
       if(!backgroundSound){
         backgroundSound = new Audio(mySound)
@@ -329,6 +341,7 @@ function App() {
       setCorrectWords([])
       setInputValue("")
       setHighScore(false)
+      setClickedIndex([])
       console.log(leaderBoard);
     }
     function shuffle(y){
@@ -393,6 +406,7 @@ function App() {
         setInputValue("")
         hintText.textContent = ''
         sound.play()
+        setClickedIndex([])
         setTimeout(()=>{document.getElementById("guess-input").style.boxShadow = 'green 0 0 100px 20px'}, 0)
         setTimeout(()=>{document.getElementById("guess-input").style.boxShadow = 'none'}, 100)
         if(window.innerWidth > 1000){
@@ -418,6 +432,7 @@ function App() {
         setInputValue("")
         hintText.textContent = ''
         sound.play()
+        setClickedIndex([])
         setTimeout(()=>{document.getElementById("guess-input").style.boxShadow = 'green 0 0 100px 20px'}, 0)
         setTimeout(()=>{document.getElementById("guess-input").style.boxShadow = 'none'}, 100)
         if(window.innerWidth > 1000){
@@ -440,6 +455,7 @@ function App() {
         setInputValue("")
         hintText.textContent = ''
         sound.play()
+        setClickedIndex([])
         setTimeout(()=>{document.getElementById("guess-input").style.boxShadow = 'green 0 0 100px 20px'}, 0)
         setTimeout(()=>{document.getElementById("guess-input").style.boxShadow = 'none'}, 100)
         if(window.innerWidth > 1000){
@@ -463,7 +479,7 @@ function App() {
           <div className='game-area-container'>
             <div><Player name={player} onChange={handleNameChange}/></div>
             <Timer timer={timer}/>
-            <div className='letters-container'>{scrambledWordArray.map((letter, index) => (<div key={index} className='word-letters' onClick={()=>{setInputValue(prevValue => prevValue + letter)}}>{letter.toUpperCase()}</div>))}</div>
+            <div className='letters-container'>{scrambledWordArray.map((letter, index) => (<div key={index} className='word-letters' onClick={()=>handleClickLetter(index, letter)}>{letter.toUpperCase()}</div>))}</div>
             <span id='hint-text'></span>
             <div className='butons-div'>
               <div className='hint-count'>{hintCount}</div>
@@ -472,7 +488,11 @@ function App() {
               <Button handleAddTime={playSound} handleClass='special-button'><i class="fa-solid fa-music"></i></Button>
             </div>
             <span className='score'>Score: {count * 100}</span>
-            <input type="text" id='guess-input' value={inputValue} onChange={handleInputChange} />
+            
+            <div className='guess-input'>
+              <input type="text" id='guess-input' value={inputValue} onChange={handleInputChange} />
+              <Button handleAddTime={()=>{setInputValue(""); setClickedIndex([])}} handleClass='special-button'><i class="fa-solid fa-square-minus"></i></Button>
+            </div>
             <Button handleAddTime={check} handleClass='play-button' style={{backgroundColor:'#3C3B3B'}}>Play</Button>
           </div>
          </section>
@@ -521,6 +541,7 @@ function App() {
               </div>))}
             </div>
             <div style={{marginTop:'2rem'}}><Button handleAddTime={resetGame} handleClass='play-button'>Play again</Button></div>
+            <Button handleAddTime={()=> localStorage.clear()} handleClass='play-button'>Clear Leaderboards</Button>
             
           </div>
           
