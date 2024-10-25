@@ -20,7 +20,7 @@ function Player({name, onChange}){
         <>
             <div className='player-div'>
                 {playerDiv}
-                <button style={{backgroundColor: '#ffebcd00', border: 'none'}} onClick={handleEdit}><i class='fa-solid fa-pencil' style={{fontSize: '1rem'}}></i></button>
+                <button style={{backgroundColor: '#ffebcd00', border: 'none'}} onClick={handleEdit}><i className='fa-solid fa-pencil' style={{fontSize: '1rem'}}></i></button>
             </div>
         </>
     )

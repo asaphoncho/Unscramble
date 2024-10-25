@@ -12,6 +12,8 @@ import incorrectSound from './assets/incorrect.mp3'
 import hintSound from './assets/hintsound.mp3'
 import typing from './assets/typing.mp3'
 
+        
+
 
 function App() {
     function playSound(){
@@ -151,6 +153,7 @@ function App() {
     const [leaderBoard, setLeaderBoard] = useState(leaderboardList ? leaderboardList.map(player => ({name: player.name, score: player.score})) : [])
     const [hintPressed, setHintPressed] = useState(false)
     const [clickedIndex, setClickedIndex] = useState([])
+    var wordLetters = document.getElementsByClassName('word-letters')
     let backgroundSound
     
     function playerClass(a){
@@ -255,14 +258,19 @@ function App() {
       setPlayer(event.target.value)
     }
 
-    function handleClickLetter(index, letter){
+    function handleClickLetter(index, letter, event){
       if(clickedIndex.includes(index)){
         setInputValue((prevValue) => prevValue.replace(letter, ''))
         setClickedIndex(prevIndex => prevIndex.filter((i) => i !== index))
+        event.target.style.backgroundColor='#3C3B3B'
+        event.target.style.transform= 'translate(0px, 0px)'
       }
       else{
         setInputValue(prevValue => prevValue + letter)
         setClickedIndex(prevIndex => [...prevIndex, index])
+        event.target.style.backgroundColor = '#646161'
+        event.target.style.transform='translate(0px, 4px)'
+
       }
     }
 
@@ -308,7 +316,7 @@ function App() {
       var scrambledWord = scrambleWord(randomword2)
       setScrambledWord(scrambledWord)
      }
-      
+     setClickedIndex([])
     }, [count])
 
     //UseEffect for the timer countdown
@@ -406,9 +414,13 @@ function App() {
         setInputValue("")
         hintText.textContent = ''
         sound.play()
+        for (let i = 0; i < wordLetters.length; i++) {
+          wordLetters[i].style.backgroundColor = '#3C3B3B';
+          wordLetters[i].style.transform = 'translate(0px, 0px)';
+        }
         setClickedIndex([])
-        setTimeout(()=>{document.getElementById("guess-input").style.boxShadow = 'green 0 0 100px 20px'}, 0)
-        setTimeout(()=>{document.getElementById("guess-input").style.boxShadow = 'none'}, 100)
+        setTimeout(()=>{document.getElementById("guess-div").style.boxShadow = 'green 0 0 100px 20px'}, 0)
+        setTimeout(()=>{document.getElementById("guess-div").style.boxShadow = 'none'}, 100)
         if(window.innerWidth > 1000){
           document.getElementById("guess-input").focus()
         }
@@ -433,8 +445,8 @@ function App() {
         hintText.textContent = ''
         sound.play()
         setClickedIndex([])
-        setTimeout(()=>{document.getElementById("guess-input").style.boxShadow = 'green 0 0 100px 20px'}, 0)
-        setTimeout(()=>{document.getElementById("guess-input").style.boxShadow = 'none'}, 100)
+        setTimeout(()=>{document.getElementById("guess-div").style.boxShadow = 'green 0 0 100px 20px'}, 0)
+        setTimeout(()=>{document.getElementById("guess-div").style.boxShadow = 'none'}, 100)
         if(window.innerWidth > 1000){
           document.getElementById("guess-input").focus()
         }
@@ -456,8 +468,8 @@ function App() {
         hintText.textContent = ''
         sound.play()
         setClickedIndex([])
-        setTimeout(()=>{document.getElementById("guess-input").style.boxShadow = 'green 0 0 100px 20px'}, 0)
-        setTimeout(()=>{document.getElementById("guess-input").style.boxShadow = 'none'}, 100)
+        setTimeout(()=>{document.getElementById("guess-div").style.boxShadow = 'green 0 0 100px 20px'}, 0)
+        setTimeout(()=>{document.getElementById("guess-div").style.boxShadow = 'none'}, 100)
         if(window.innerWidth > 1000){
           document.getElementById("guess-input").focus()
         }
@@ -467,8 +479,8 @@ function App() {
         console.log("wrong attempt")
         audio.play()
         //hintText.innerHTML = `<span style="color: red;">Wrong attempt</span>`
-        setTimeout(()=>{document.getElementById("guess-input").style.boxShadow = 'red 0 0 100px 20px'}, 0)
-        setTimeout(()=>{document.getElementById("guess-input").style.boxShadow = 'none'}, 100)
+        setTimeout(()=>{document.getElementById("guess-div").style.boxShadow = 'red 0 0 100px 20px'}, 0)
+        setTimeout(()=>{document.getElementById("guess-div").style.boxShadow = 'none'}, 100)
       }
       
     }
@@ -479,19 +491,22 @@ function App() {
           <div className='game-area-container'>
             <div><Player name={player} onChange={handleNameChange}/></div>
             <Timer timer={timer}/>
-            <div className='letters-container'>{scrambledWordArray.map((letter, index) => (<div key={index} className='word-letters' onClick={()=>handleClickLetter(index, letter)}>{letter.toUpperCase()}</div>))}</div>
+            <div className='letters-container'>{scrambledWordArray.map((letter, index) => (<div key={index} className='word-letters' id='letters' onClick={(event) => handleClickLetter(index, letter, event)}>{letter.toUpperCase()}</div>))}</div>
             <span id='hint-text'></span>
             <div className='butons-div'>
               <div className='hint-count'>{hintCount}</div>
-              <Button handleAddTime={getHint} handleClass='special-button'><i class="fa-regular fa-lightbulb"></i></Button>
-              <Button handleAddTime={()=> shuffle(scrambledWord)} handleClass='special-button'><i class="fa-solid fa-shuffle"></i></Button>
-              <Button handleAddTime={playSound} handleClass='special-button'><i class="fa-solid fa-music"></i></Button>
+              <Button handleAddTime={getHint} handleClass='special-button'><i className="fa-regular fa-lightbulb"></i></Button>
+              <Button handleAddTime={()=> shuffle(scrambledWord)} handleClass='special-button'><i className="fa-solid fa-shuffle"></i></Button>
+              <Button handleAddTime={playSound} handleClass='special-button'><i className="fa-solid fa-music"></i></Button>
             </div>
             <span className='score'>Score: {count * 100}</span>
             
-            <div className='guess-input'>
+            <div className='guess-input' id='guess-div'>
               <input type="text" id='guess-input' value={inputValue} onChange={handleInputChange} />
-              <Button handleAddTime={()=>{setInputValue(""); setClickedIndex([])}} handleClass='special-button'><i class="fa-solid fa-square-minus"></i></Button>
+              <Button handleAddTime={()=>{setInputValue(""); setClickedIndex([]); for (let i = 0; i < wordLetters.length; i++) {
+          wordLetters[i].style.backgroundColor = '#3C3B3B';
+          wordLetters[i].style.transform = 'translate(0px, 0px)';
+        }}} handleClass='special-button'><i className="fa-solid fa-square-minus"></i></Button>
             </div>
             <Button handleAddTime={check} handleClass='play-button' style={{backgroundColor:'#3C3B3B'}}>Play</Button>
           </div>
@@ -540,8 +555,8 @@ function App() {
                 </div>
               </div>))}
             </div>
-            <div style={{marginTop:'2rem'}}><Button handleAddTime={resetGame} handleClass='play-button'>Play again</Button></div>
-            <Button handleAddTime={()=> localStorage.clear()} handleClass='play-button'>Clear Leaderboards</Button>
+            <div style={window.innerWidth > 1000 ? {marginTop:'2rem'}:{marginTop:'0rem'}}><Button handleAddTime={resetGame} handleClass='play-button'>Play again</Button></div>
+            <div style={{marginTop:'0.5rem'}}><Button handleAddTime={()=> localStorage.clear()} handleClass='play-button'>Clear Leaderboards</Button></div>
             
           </div>
           
