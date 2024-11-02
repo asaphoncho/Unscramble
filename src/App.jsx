@@ -341,6 +341,14 @@ function App() {
       let colorStyle = {backgroundColor: `${randomColor}`, borderRadius: "2rem", boxShadow: "3px 4px 0 #3C3B3B", color: "#FFEBCD", fontFamily: '"Jaini Purva", system-ui', fontStyle: 'normal', fontWeight: '400'}
       return colorStyle
     }
+    function clearText(){
+      setInputValue("");
+      setClickedIndex([]);
+      for (let i = 0; i < wordLetters.length; i++) {
+        wordLetters[i].style.backgroundColor = '#3C3B3B';
+        wordLetters[i].style.transform = 'translate(0px, 0px)';
+      }
+    }
 
     function resetGame(){
       setTimer(60)
@@ -444,6 +452,10 @@ function App() {
         setInputValue("")
         hintText.textContent = ''
         sound.play()
+        for (let i = 0; i < wordLetters.length; i++) {
+          wordLetters[i].style.backgroundColor = '#3C3B3B';
+          wordLetters[i].style.transform = 'translate(0px, 0px)';
+        }
         setClickedIndex([])
         setTimeout(()=>{document.getElementById("guess-div").style.boxShadow = 'green 0 0 100px 20px'}, 0)
         setTimeout(()=>{document.getElementById("guess-div").style.boxShadow = 'none'}, 100)
@@ -467,6 +479,10 @@ function App() {
         setInputValue("")
         hintText.textContent = ''
         sound.play()
+        for (let i = 0; i < wordLetters.length; i++) {
+          wordLetters[i].style.backgroundColor = '#3C3B3B';
+          wordLetters[i].style.transform = 'translate(0px, 0px)';
+        }
         setClickedIndex([])
         setTimeout(()=>{document.getElementById("guess-div").style.boxShadow = 'green 0 0 100px 20px'}, 0)
         setTimeout(()=>{document.getElementById("guess-div").style.boxShadow = 'none'}, 100)
@@ -503,10 +519,7 @@ function App() {
             
             <div className='guess-input' id='guess-div'>
               <input type="text" id='guess-input' value={inputValue} onChange={handleInputChange} />
-              <Button handleAddTime={()=>{setInputValue(""); setClickedIndex([]); for (let i = 0; i < wordLetters.length; i++) {
-          wordLetters[i].style.backgroundColor = '#3C3B3B';
-          wordLetters[i].style.transform = 'translate(0px, 0px)';
-        }}} handleClass='special-button'><i className="fa-solid fa-square-minus"></i></Button>
+              <Button handleAddTime={clearText} handleClass='special-button'><i className="fa-solid fa-delete-left"></i></Button>
             </div>
             <Button handleAddTime={check} handleClass='play-button' style={{backgroundColor:'#3C3B3B'}}>Play</Button>
           </div>
